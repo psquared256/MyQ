@@ -42,5 +42,11 @@ def index():
         if(toEnter is not None):
             return redirect(url_for('queue_bp.queue', queue_id=toEnter.id))
 
+    cForm.name.data = ""
+    cForm.passkey.data = ""
+    cForm.max_quantity.data = ""
+    fForm.name.data = ""
+    fForm.passkey.data = ""
+    eForm.name.data = ""
     return render_template('index.html', cForm=cForm, fForm=fForm, eForm=eForm)
 

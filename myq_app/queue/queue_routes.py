@@ -108,5 +108,5 @@ def queue(queue_id):
             # return redirect(url_for('queue_bp.queue', queue_id=queue_id, number=name_exists.queue_number))
             return render_template('queue.html', queue=toShow, number=name_exists.queue_number, form=aForm)
 
-    
+    aForm.name.data = ""
     return render_template('queue.html', queue=toShow, number=0, form=aForm)

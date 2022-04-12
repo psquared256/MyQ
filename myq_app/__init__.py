@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import pymysql
 
 db = SQLAlchemy()
 
 def init_app():
     app = Flask(__name__, instance_relative_config=False)
-    app.config.from_object('config.Config')
+    # app.config.from_object('config.Config')
+    app.config.from_object('config.Demo_Config')
     
     db.init_app(app)
 
