@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>MyQ</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>MyQ</h1>
+    <h2>Welcome to MyQ!</h2>
+    <h3>Make a queue</h3>
+    <div class="form">
+        <form action="/" method="POST">
+            {{ cForm.csrf_token }}
+            <fieldset>
+                {{ cForm.name.label }}
+                {{ cForm.name }}
+            </fieldset>
+            <fieldset>
+                {{ cForm.passkey.label }}
+                {{ cForm.passkey }}
+            </fieldset>
+            <fieldset>
+                {{ cForm.max_quantity.label }}
+                {{ cForm.max_quantity }}
+            </fieldset>
+            {{ cForm.submit }}
+        </form>
+    </div>
+    <h3>Find your queue</h3>
+    <div class="form">
+        <form action="/" method="POST">
+            {{ fForm.csrf_token }}
+            <fieldset>
+                {{ fForm.name.label }}
+                {{ fForm.name }}
+            </fieldset>
+            <fieldset>
+                {{ fForm.passkey.label }}
+                {{ fForm.passkey }}
+            </fieldset>
+            {{ fForm.submit }}
+        </form>
+    </div>
+    <h3>Enter a queue</h3>
+    <div class="form">
+        <form action="/" method="POST">
+            {{ eForm.csrf_token }}
+            <fieldset>
+                {{ eForm.name.label }}
+                {{ eForm.name }}
+            </fieldset>
+            {{ eForm.submit }}
+        </form>
+    </div>
+</div>
+{% endblock %}

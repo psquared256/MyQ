@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>MyQ</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>MyQ</h1>
+    <h2> {{ queue.queue_name }} </h2>
+    {% if queue.status == "Open" %}
+
+    {% if number == 0 %}
+    <h3>Enter your full name to get your queue number</h3>
+    <div class="form">
+        <form action="/queue/{{queue.id}}" method="POST">
+            {{ form.csrf_token }}
+            <fieldset>
+                {{ form.name.label }}
+                {{ form.name }}
+            </fieldset>
+
+            {{ form.submit }}
+        </form>
+    </div>
+    {% else %}
+    <h3>Your queue number is:</h3>
+    <p id="number">{{ number }}</p>
+    {% endif %}
+
+    {% else %}
+    <h3>This queue is closed for now.  Please come back later</h3>
+    {% endif %}
+
+</div>
+{% endblock %}

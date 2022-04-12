@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>MyQ</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>MyQ</h1>
+    <h2> {{ queue.queue_name }} </h2>
+    {% if members|length < 1 %}
+    <h3>No queue members are added yet</h3>
+    {% else %}
+    <table>
+        <tr>
+            <th>Queue No.</th>
+            <th>Full Name</th>
+            <th>Action</th>
+        </tr>
+        {% for member in members %}
+        <tr>
+            <th>{{ member.queue_number }}</th>
+            <th>{{ member.full_name }}</th>
+            <th><a href="/queue_admin/{{queue.id}}/remove/{{member.id}}">Remove</a></th>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+    <p>Admin actions</p>
+    <table class="borderless_table">
+        <tr>
+            {% if queue.status == "Open" %}
+            <td><a href="/queue_admin/{{queue.id}}/change_status"> Close Queue</a></td>
+            {% else %}
+            <td><a href="/queue_admin/{{queue.id}}/change_status"> Open Queue</a></td>
+            {% endif %}
+            <td><a href="/queue_admin/{{queue.id}}/clear"> Clear Queue</a></td>
+            <td><a href="/queue_admin/{{queue.id}}/delete"> Delete Queue</a></td>
+        </tr>
+    </table>
+
+</div>
+{% endblock %}
