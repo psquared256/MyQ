@@ -5,13 +5,13 @@ import pymysql
 db = SQLAlchemy()
 
 def init_app():
-    app = Flask(__name__, instance_relative_config=False)
+    application = Flask(__name__, instance_relative_config=False)
     # app.config.from_object('config.Config')
-    app.config.from_object('config.Demo_Config')
+    application.config.from_object('config.Demo_Config')
     
-    db.init_app(app)
+    db.init_app(application)
 
-    with app.app_context():
+    with application.app_context():
         
         from .home.models import Queue
         from .queue.models import Member
@@ -20,9 +20,9 @@ def init_app():
         from .home import home_routes
         from .queue import queue_routes
 
-        app.register_blueprint(home_routes.home_bp)
-        app.register_blueprint(queue_routes.queue_bp)
+        application.register_blueprint(home_routes.home_bp)
+        application.register_blueprint(queue_routes.queue_bp)
 
         
         
-        return app
+        return application
