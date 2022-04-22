@@ -27,7 +27,7 @@ def remove(queue_id, member_id):
         db.session.commit()
         return redirect(url_for('queue_bp.queue_admin', queue_id=queue_id))
     except:
-        return 'There was an error deleting the member'
+        return 'There was an error deleting the member.\n\n<a href="/"> Return to home</a>'
     pass
 
 @queue_bp.route('/queue_admin/<int:queue_id>/change_status', methods=['POST', 'GET'])
@@ -42,7 +42,7 @@ def change_status(queue_id):
         db.session.commit()
         return redirect(url_for('queue_bp.queue_admin', queue_id=queue_id))
     except:
-        return 'There was an problem changing queue status'
+        return 'There was an problem changing queue status.\n\n<a href="/"> Return to home</a>'
 
 @queue_bp.route('/queue_admin/<int:queue_id>/delete', methods=['POST', 'GET'])
 def delete(queue_id):
@@ -53,7 +53,7 @@ def delete(queue_id):
         db.session.commit()
         return redirect(url_for('home_bp.index'))
     except:
-        return 'There was an error deleting your queue'
+        return 'There was an error deleting your queue.\n\n<a href="/"> Return to home</a>'
 
 @queue_bp.route('/queue_admin/<int:queue_id>/clear', methods=['POST', 'GET'])
 def clear(queue_id):
@@ -62,7 +62,7 @@ def clear(queue_id):
         clear_queue(queue_id=queue_id)
         return redirect(url_for('queue_bp.queue_admin', queue_id=queue_id))
     except:
-        return 'There was an error deleting your queue'
+        return 'There was an error deleting your queue.\n\n<a href="/"> Return to home</a>'
     
 
 def clear_queue(queue_id):
@@ -74,18 +74,19 @@ def clear_queue(queue_id):
 
 #Member functions
 
-@queue_bp.route('/queue/<int:queue_id>', methods=['POST', 'GET'])
-def queue(queue_id):
+@queue_bp.route('/queue/<string:queue_name>', methods=['POST', 'GET'])
+def queue(queue_name):
     aForm = MemberForm()
-    toShow = Queue.query.get_or_404(queue_id)
+    # toShow = Queue.query.get_or_404(queue_id)
+    toShow = Queue.query.filter(Queue.queue_name == queue_name).first()
 
     if aForm.validate_on_submit():
         find_name = aForm.name.data
-        name_exists = Member.query.filter(Member.full_name == find_name, Member.queue_id == queue_id).first()
+        name_exists = Member.query.filter(Member.full_name == find_name, Member.queue_id == toShow.id).first()
         
         if(name_exists is None):
             new_member_name = aForm.name.data
-            new_member = Member(full_name=new_member_name, queue_id=queue_id)
+            new_member = Member(full_name=new_member_name, queue_id=toShow.id)
 
             if(toShow.quantity < toShow.max_quantity and toShow.status == "Open"):
                 if(toShow.lastNo_added == toShow.max_quantity):
@@ -99,13 +100,11 @@ def queue(queue_id):
                 try:
                     db.session.add(new_member)
                     db.session.commit()
-                    # return redirect(url_for('queue_bp.queue', queue_id=queue_id, number=new_member.queue_number))
                     return render_template('queue.html', queue=toShow, number=new_member.queue_number, form=aForm)
 
                 except:
-                    return 'There was an issue adding a member'
+                    return 'There was an issue adding a member.\n\n<a href="/"> Return to home</a>'
         else:
-            # return redirect(url_for('queue_bp.queue', queue_id=queue_id, number=name_exists.queue_number))
             return render_template('queue.html', queue=toShow, number=name_exists.queue_number, form=aForm)
 
     aForm.name.data = ""

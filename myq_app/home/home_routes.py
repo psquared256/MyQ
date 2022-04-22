@@ -25,8 +25,12 @@ def index():
             db.session.add(new_queue)
             db.session.commit()
             return redirect(url_for('home_bp.index'))
-        except:
-            return 'There was an issue adding a queue'
+        except Exception as e:
+            print(e)
+            if 'UNIQUE' in str(e) or 'Duplicate' in str(e):
+                return 'The queue name already belongs to another queue.\n\n<a href="/"> Return to home</a>'
+            else:
+                return 'There was an issue adding a queue.\n\n<a href="/"> Return to home</a>'
 
     if fForm.validate_on_submit():
         find_name = fForm.name.data
@@ -40,7 +44,7 @@ def index():
         enter_name = eForm.name.data
         toEnter = Queue.query.filter(Queue.queue_name == enter_name).first()
         if(toEnter is not None):
-            return redirect(url_for('queue_bp.queue', queue_id=toEnter.id))
+            return redirect(url_for('queue_bp.queue', queue_name=toEnter.queue_name))
 
     cForm.name.data = ""
     cForm.passkey.data = ""

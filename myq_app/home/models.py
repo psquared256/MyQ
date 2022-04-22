@@ -1,9 +1,10 @@
+from enum import unique
 from myq_app import db
 from datetime import datetime
 
 class Queue(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    queue_name = db.Column(db.String(100), nullable=False)
+    queue_name = db.Column(db.String(100), nullable=False, unique=True)
     passkey = db.Column(db.String(100), nullable=True)
     quantity = db.Column(db.Integer, default=0)
     max_quantity = db.Column(db.Integer, nullable=False)
