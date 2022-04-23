@@ -6,6 +6,9 @@ db = SQLAlchemy()
 
 def init_app():
     application = Flask(__name__, instance_relative_config=False)
+
+    # Comment out ('config.Demo_Config') and comment in ('config.Config') to use the local database
+
     # application.config.from_object('config.Config')
     application.config.from_object('config.Demo_Config')
     
