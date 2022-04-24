@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>MyQ</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1>MyQ</h1>
+    <h2>Welcome to MyQ!</h2>
+    <h3>Successfully created queue!</h3>
+    <p>Be sure to write the details of this queue down or take a screenshot of this page.</p>
+    <br>
+    <p>Queue name: {{ queue.queue_name }}</p>
+    <p>Passkey: {{ queue.passkey }}</p>
+    <p>Max. quantity: {{ queue.max_quantity }}</p>
+    <br>
+    <a href="/">Back to home</a>
+</div>
+{% endblock %}

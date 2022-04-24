@@ -24,7 +24,7 @@ def index():
         try:
             db.session.add(new_queue)
             db.session.commit()
-            return redirect(url_for('home_bp.index'))
+            return render_template('success.html', queue=new_queue)
         except Exception as e:
             print(e)
             if 'UNIQUE' in str(e) or 'Duplicate' in str(e):
