@@ -21,9 +21,11 @@ def queue_admin(queue_id):
 @queue_bp.route('/queue_admin/<int:queue_id>/remove/<int:member_id>', methods=['POST', 'GET'])
 def remove(queue_id, member_id):
     member_to_delete = Member.query.get_or_404(member_id)
-
+    toEdit = Queue.query.get_or_404(queue_id)
+    
     try:
         db.session.delete(member_to_delete)
+        toEdit.quantity = toEdit.quantity - 1
         db.session.commit()
         return redirect(url_for('queue_bp.queue_admin', queue_id=queue_id))
     except:
@@ -57,7 +59,9 @@ def delete(queue_id):
 
 @queue_bp.route('/queue_admin/<int:queue_id>/clear', methods=['POST', 'GET'])
 def clear(queue_id):
-    Member.query.filter(Member.queue_id == queue_id).delete()
+    # Member.query.filter(Member.queue_id == queue_id).delete()
+    # toEdit = Queue.query.get_or_404(queue_id)
+
     try:
         clear_queue(queue_id=queue_id)
         return redirect(url_for('queue_bp.queue_admin', queue_id=queue_id))
@@ -67,9 +71,14 @@ def clear(queue_id):
 
 def clear_queue(queue_id):
     members_to_delete = Member.query.filter(Member.queue_id == queue_id).all()
+    toEdit = Queue.query.get_or_404(queue_id)
 
     for member in members_to_delete:
         db.session.delete(member)
+
+    toEdit.quantity = 0
+    toEdit.lastNo_added = 0
+
     db.session.commit()
 
 #Member functions

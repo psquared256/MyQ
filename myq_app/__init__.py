@@ -10,8 +10,8 @@ def init_app():
     # Comment out ('config.Demo_Config') and comment in ('config.Config') to use the local database
     # Comment out ('config.Config') and comment in ('config.Demo_Config') to use the online database
 
-    # application.config.from_object('config.Config')
-    application.config.from_object('config.Demo_Config')
+    application.config.from_object('config.Config')
+    # application.config.from_object('config.Demo_Config')
     
     db.init_app(application)
 
