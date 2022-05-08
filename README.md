@@ -1,6 +1,6 @@
 # MyQ (Pronounced My-queue)
 
-A simple web application designed to track virtual queues.
+A simple web application designed to track virtual queues.  As I was primarily experienced with back-end development at the time of developing this application, the front-end is designed only to be functional.
 
 ### Set up (Local)
 
